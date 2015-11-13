@@ -1,0 +1,18 @@
+---
+:backends:
+  - yaml
+
+:logger: console
+
+:hierarchy:
+  - nodes/%{::clientcert}
+  - common
+  - accounts/users
+  - accounts/groups
+
+:yaml:
+  :datadir: hieradata 
+
+:merge_behavior: deeper
+:deep_merge_options:
+  :knockout_prefix: '--'

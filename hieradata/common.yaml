@@ -1,0 +1,7 @@
+---
+managed_groups:
+  - group1 
+  - group2
+  - group3
+managed_users:
+  - user1 

@@ -1,0 +1,16 @@
+---
+accounts::users:
+  user1:
+    ensure: present
+    comment: 'User One'
+    uid: '700'
+    gid: '700'
+    groups:
+      - group1
+      - group2
+      - group3
+  user2:
+    ensure: present
+    comment: 'User Two' 
+    uid: '701'
+    gid: '701'

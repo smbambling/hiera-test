@@ -1,0 +1,11 @@
+---
+accounts::groups:
+  group1:
+    ensure: present
+    gid: '9999'
+  group2: 
+    ensure: present
+    gid: '9998'
+  group3:
+    ensure: present
+    gid: '9997'
