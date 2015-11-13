@@ -161,11 +161,11 @@ $managed_users.each | $user | {
 ##### Specify Managed Groups
 
 A list of groups that should be managed on the each system is populated via a
-hiera_array lookup, which performs a merged lookup of the managed_groups element
+hiera_hash lookup, which performs a merged lookup of the managed_groups hash
 in hiera.
 
 ```puppet
-$managed_groups = hiera_array(managed_groups)
+$managed_groups = hiera_hash(managed_groups)[groups]
 ```
 
 A common set of groups can be added at various levels of your hierarchy.
