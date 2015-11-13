@@ -1,4 +1,4 @@
-$managed_groups = hiera_array(managed_groups)
+$managed_groups = hiera_hash(managed_groups)[groups]
 
 notice ( $managed_groups )
 

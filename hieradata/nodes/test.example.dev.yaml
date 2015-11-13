@@ -1,6 +1,7 @@
 ---
 managed_groups:
-  - --group3
+  groups:
+    - --group3
 managed_users:
   - user1
   - user2
