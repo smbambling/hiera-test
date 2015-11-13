@@ -1,0 +1,14 @@
+---
+managed_groups:
+  - --group3
+managed_users:
+  - user1
+  - user2
+accounts::users:
+  user1:
+    ensure: present
+    comment: 'User One Updated'
+    groups:
+      - --group3
+  user2:
+    comment: 'User Two Updated'
