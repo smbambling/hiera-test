@@ -7,3 +7,4 @@ else
   gem 'puppet', :require => false
 end
 
+gem 'deep_merge'
