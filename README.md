@@ -87,7 +87,7 @@ the site.pp or a base profile that is applied to all nodes in your organization.
 
 ```puppet
 # Fetch a list of managed groups
-$managed_groups = hiera_array(managed_groups)
+$managed_groups = hiera_hash(managed_groups)[groups]
 
 # Create group resources based on the fetched list
 $managed_groups.each | $group | {
@@ -107,20 +107,19 @@ $managed_users.each | $user | {
 
 ##### Group Management logic
 
-To manage groups the logic will use the hiera_array() function to perform a merge
-lookup to obtain a list of groups to manage. This returns all matches throughout
-the hierarchy — not just the first match, as a flattened array of unique values.
-If any of the matched values are arrays, they’reflattened and included in the results.
+To manage groups the logic will use the hiera_hash() function to perform a merge
+lookup to obtain a list of groups to manage. This returns a merged hash of matches
+from throughout the hierarchy. In cases where two or more hashes share keys,
+the hierarchy order determines which key/value pair will be used in the returned
+hash, with the pair in the highest priority data source winning.
 
 ```puppet
-$managed_groups = hiera_array(managed_groups)
+$managed_groups = hiera_hash(managed_groups)[groups]
 ```
 
-For each managed group in the fetched list the hiera_hash() function is used to
-perform a merge lookup. This returns a merged hash of matches from throughout the
-hierarchy. In cases where two or more hashes share keys, the hierarchy order
-determines which key/value pair will be used in the returned hash, with the pair
-in the highest priority data source winning.
+For each managed group in the fetched list the hiera_hash() function is again
+used to perform a merge lookup. This returns a merged hash of matches from
+throughout the hierarchy.
 
 The create_resources() function is then used to mange the group resource with the
 merged hash information provided from the hiera_hash lookup.
@@ -177,9 +176,10 @@ applied to every system in your infrastructure.
 common.yaml
 ---
 managed_groups:
-  - group1
-  - group2
-  - group3
+  groups:
+   - group1
+   - group2
+   - group3
 ```
 
 While the node specific "fqdn".yaml files may contain a list of groups that only
@@ -191,8 +191,8 @@ apply to a certain node.
 nodes/test.example.dev.yaml
 ---
 managed_groups:
-  - group4
-  - --group3
+  groups:
+    - --group3
 ```
 
 ##### Modify Group Attributes
@@ -262,4 +262,4 @@ accounts::users:
       - --group3
   user2:
     comment: 'User Two Updated'
-``` 
+```
