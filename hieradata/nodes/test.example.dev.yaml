@@ -4,6 +4,9 @@ managed_groups:
 managed_users:
   - user1
   - user2
+accounts:groups:
+  group3:
+    ensure: absent 
 accounts::users:
   user1:
     ensure: present
