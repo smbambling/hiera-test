@@ -8,9 +8,10 @@ bundle exec puppet apply --certname=test.example.dev --hiera_config=hiera.yaml t
 
 ### Overview
 
-User and Group information now uses hiera as a data store.  The yaml files that
-contain the information about each user and group however are not directly called
-via an accounts module ( pe_accounts ) to create the resource.
+This details the method and configuration for account management for users and groups
+with hiera as a data store.  The yaml files that contain the information about each
+user and group however are not directly called via an accounts module ( pe_accounts )
+to create the resource.
 
 Instead wrapper logic is used in the site.pp or a common/base profile ( if using roles/profiles )
 to select users and groups information from the Yaml data store(s)
@@ -95,13 +96,14 @@ $managed_groups.each | $group | {
   create_resources('group', $g)
 }
 
+
 # Fetch list of managed users
 $managed_users = hiera_array(managed_users)
 
 # Create user resources based on the fetched list
 $managed_users.each | $user | {
   $u = hiera_hash(accounts::users).filter | $key, $val | { $key == $user }
-  notice ( $u )
+  create_resources(pe_accounts::user, $u)
 }
 ```
 
@@ -168,7 +170,7 @@ $managed_groups = hiera_array(managed_groups)
 
 A common set of groups can be added at various levels of your hierarchy.
 
-For example the commons.yaml file may contain a list of groups that should be
+For example the common.yaml file may contain a list of groups that should be
 applied to every system in your infrastructure.
 
 
@@ -221,7 +223,7 @@ in hiera.
 
 A common set of users can be added at various levels of your hierarchy.
 
-For example the commons.yaml file may contain a list of users that should be
+For example the common.yaml file may contain a list of users that should be
 applied to every system in your infrastructure.
 
 ```yaml
