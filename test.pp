@@ -1,11 +1,11 @@
 $managed_groups = hiera_array(managed_groups)
 
-# Used for testing only
 notice ( $managed_groups )
 
 $managed_groups.each | $group | {
+  notice ( "Processing $group" )
   $g = hiera_hash(accounts::groups).filter | $key, $val | { $key == $group }
-  create_resources('group', $g)
+  notice ( $g )
 }
 
 $managed_users = hiera_array(managed_users)
